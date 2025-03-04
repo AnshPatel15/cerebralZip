@@ -7,7 +7,7 @@ const Dashboard = () => {
       <div className=" font-bold text-5xl m-7 ">Dashboard</div>
       <div className="">
         <Metrics />
-        {/* <BarGraph /> */}
+        <BarGraph />
       </div>
     </div>
   );

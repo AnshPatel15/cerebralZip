@@ -33,26 +33,19 @@ const BarGraph = () => {
   }, []);
 
   return (
-    <div className="w-full h-[400px] p-4">
-      <ResponsiveContainer width="70%" height="70%">
+    <div className="w-full h-[400px] p-4 mt-10">
+      <ResponsiveContainer width="100%" height="90%">
         <CartesianGrid strokeDasharray="3 3" />
         <BarChart data={data}>
           <XAxis dataKey="month" />
-          <YAxis />
+          <YAxis
+            tickFormatter={(value) => `${value / 1000}k`}
+            domain={[0, "auto"]}
+          />
           <Tooltip />
           <Legend />
-          <Bar
-            dataKey="last_year"
-            fill="#8884d8"
-            name="Last Year"
-            radius={10}
-          />
-          <Bar
-            dataKey="this_year"
-            fill="#82ca9d"
-            name="This Year"
-            radius={10}
-          />
+          <Bar dataKey="last_year" fill="#387cc9" name="Last Year" radius={8} />
+          <Bar dataKey="this_year" fill="#0b4280" name="This Year" radius={8} />
         </BarChart>
       </ResponsiveContainer>
     </div>

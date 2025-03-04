@@ -36,13 +36,16 @@ const Metrics = () => {
   }, []);
 
   return (
-    <div className="flex gap-10 ml-8">
+    <div className="flex gap-2 ml-8">
       {Object.entries(data).map(([key, value], i) => (
-        <div key={i} className="border border-black w-70 h-30 rounded-2xl p-4">
-          <div className="font-bold text-lg">
+        <div
+          key={i}
+          className="border border-gray-300 w-140 h-30 rounded-2xl p-4"
+        >
+          <div className="font-bold text-lg text-gray-500">
             {key.charAt(0).toUpperCase() + key.slice(1)}
           </div>
-          <div className="text-2xl">{value}</div>
+          <div className="text-2xl mt-5">{value}</div>
         </div>
       ))}
     </div>
