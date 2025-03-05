@@ -1,7 +1,7 @@
 // Proxy API requests to the backend server
-const http = require('http');
+import { request } from 'http';
 
-module.exports = async (req, res) => {
+export default async (req, res) => {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -14,33 +14,37 @@ module.exports = async (req, res) => {
     return;
   }
 
-  // Get the path from the request URL
-  const path = req.url.replace(/^\/api\/proxy/, '');
-  
-  // Forward the request to the backend API
-  const apiUrl = `http://3.111.196.92:8020${path}`;
-  
-  // Create options for the HTTP request
-  const options = {
-    method: req.method,
-    headers: {
-      ...req.headers,
-      host: '3.111.196.92:8020',
-    },
-  };
-
-  // Remove headers that might cause issues
-  delete options.headers.host;
-  
   try {
+    // Get the path from the request URL
+    const path = req.url.replace(/^\/api\/proxy/, '');
+    
+    // Forward the request to the backend API
+    const apiUrl = new URL(`http://3.111.196.92:8020${path}`);
+    
+    console.log('Proxying request to:', apiUrl.toString());
+    
+    // Create options for the HTTP request
+    const options = {
+      method: req.method,
+      headers: { ...req.headers },
+    };
+    
+    // Remove headers that might cause issues
+    delete options.headers.host;
+    delete options.headers['content-length'];
+    
     // Create a promise to handle the HTTP request
     const proxyRequest = new Promise((resolve, reject) => {
-      const proxyReq = http.request(apiUrl, options, (proxyRes) => {
-        // Set the status code and headers from the proxied response
-        res.statusCode = proxyRes.statusCode;
-        Object.keys(proxyRes.headers).forEach((key) => {
-          res.setHeader(key, proxyRes.headers[key]);
-        });
+      const proxyReq = request(apiUrl, options, (proxyRes) => {
+        // Set the status code from the proxied response
+        res.status(proxyRes.statusCode);
+        
+        // Set headers from the proxied response
+        for (const [key, value] of Object.entries(proxyRes.headers)) {
+          if (key && value) {
+            res.setHeader(key, value);
+          }
+        }
 
         // Collect the response data
         const chunks = [];
@@ -53,12 +57,14 @@ module.exports = async (req, res) => {
 
       // Handle errors in the proxy request
       proxyReq.on('error', (error) => {
+        console.error('Proxy request error:', error);
         reject(error);
       });
 
       // If there's a request body, write it to the proxy request
       if (req.body) {
-        proxyReq.write(JSON.stringify(req.body));
+        const bodyData = typeof req.body === 'object' ? JSON.stringify(req.body) : req.body;
+        proxyReq.write(bodyData);
       }
 
       // End the proxy request
@@ -70,6 +76,6 @@ module.exports = async (req, res) => {
     res.send(responseBody);
   } catch (error) {
     console.error('Proxy error:', error);
-    res.status(500).json({ error: 'Proxy request failed' });
+    res.status(500).json({ error: 'Proxy request failed', message: error.message });
   }
 };
