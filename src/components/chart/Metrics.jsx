@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { useUser } from "../../context/userContext";
+
+const formatNumber = (value) => {
+  if (typeof value !== "number") return value;
+
+  if (value >= 1000 && value % 100 === 0) {
+    return (value / 1000).toFixed(1).replace(/\.0$/, "") + "k";
+  }
+  return value;
+};
 
 const Metrics = () => {
   const [data, setData] = useState([]);
@@ -45,7 +53,11 @@ const Metrics = () => {
           <div className="font-bold text-lg text-gray-500">
             {key.charAt(0).toUpperCase() + key.slice(1)}
           </div>
-          <div className="text-2xl mt-5">{value}</div>
+          <div className="text-2xl mt-5">
+            {key !== "purchases"
+              ? "$" + formatNumber(value)
+              : formatNumber(value)}
+          </div>
         </div>
       ))}
     </div>
