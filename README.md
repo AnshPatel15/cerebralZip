@@ -31,7 +31,7 @@ The backend is built with:
 - **CORS**: For handling cross-origin requests
 - **dotenv**: For environment variable management
 
-### Database
+## Database
 
 The application uses SQLite for data storage with three tables:
 - `monthly_data`: Stores monthly comparison data
