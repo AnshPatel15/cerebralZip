@@ -40,7 +40,7 @@ const GaugeChart = () => {
   ];
 
   return (
-    <div className="w-full h-[320px] flex flex-col items-center">
+    <div className="w-full h-[280px] flex flex-col items-center">
       <div className="h-[220px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <RadialBarChart
@@ -84,9 +84,9 @@ const GaugeChart = () => {
           </RadialBarChart>
         </ResponsiveContainer>
       </div>
-      <div className="border border-gray-200 w-[80%] -mt-4"></div>
+      <div className="border border-gray-200 w-[80%] -mt-12"></div>
       <div className="flex flex-col items-start w-[80%]">
-        <div className="mt-1 text-2xl font-bold mb-4">{gaudeData.title}!</div>
+        <div className="mt-4 text-2xl font-bold mb-4">{gaudeData.title}!</div>
         <div className="-mt-1">{gaudeData.message}</div>
       </div>
     </div>
