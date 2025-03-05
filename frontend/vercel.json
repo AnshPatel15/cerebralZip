@@ -1,8 +1,16 @@
 {
   "rewrites": [
     {
-      "source": "/api/:path*",
-      "destination": "http://3.111.196.92:8020/api/:path*"
+      "source": "/api/v1/login",
+      "destination": "/api/login"
+    },
+    {
+      "source": "/api/v1/login/",
+      "destination": "/api/login"
+    },
+    {
+      "source": "/api/v1/(.*)",
+      "destination": "/api/proxy"
     }
   ],
   "headers": [
