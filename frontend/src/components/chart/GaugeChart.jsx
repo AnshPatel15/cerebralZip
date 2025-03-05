@@ -15,7 +15,7 @@ const GaugeChart = () => {
           }`
         );
         const response = await fetch(
-          "http://3.111.196.92:8020/api/v1/sample_assignment_api_3/",
+          "/api/v1/sample_assignment_api_3/",
           {
             method: "GET",
             headers: {
