@@ -28,7 +28,7 @@ const App = () => {
     },
   ];
 
-  const ProtectedLayout = () => (
+  const Layout = () => (
     <div className="bg-gray-300 h-screen flex justify-center items-center p-4 overflow-hidden">
       <div className="bg-gray-100 w-full h-full max-h-[97vh] p-3 rounded-3xl shadow-lg grid grid-cols-12 gap-2 sm:mt-23 lg:mt-0 relative">
         <button
@@ -94,7 +94,7 @@ const App = () => {
         />
         <Route
           path="/"
-          element={user ? <ProtectedLayout /> : <Navigate to="/login" />}
+          element={user ? <Layout /> : <Navigate to="/login" />}
         />
       </Routes>
     </BrowserRouter>
