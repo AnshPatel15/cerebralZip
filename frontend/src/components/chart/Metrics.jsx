@@ -23,7 +23,7 @@ const Metrics = () => {
           }`
         );
         const response = await fetch(
-          "http://3.111.196.92:8020/api/v1/sample_assignment_api_1/",
+          "https://3.111.196.92:8020/api/v1/sample_assignment_api_1/",
           {
             method: "GET",
             headers: {
