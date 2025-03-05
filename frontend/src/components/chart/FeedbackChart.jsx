@@ -14,15 +14,18 @@ const FeedbackChart = () => {
             import.meta.env.VITE_API_PASSWORD
           }`
         );
-        const response = await apiCall("sample_assignment_api_5/", {
-          method: "GET",
-          headers: {
-            Authorization: `Basic ${credentials}`,
-            Accept: "application/json",
-          },
-          mode: "cors",
-          credentials: "same-origin",
-        });
+        const response = await fetch(
+          "/api/v1/sample_assignment_api_5/",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Basic ${credentials}`,
+              Accept: "application/json",
+            },
+            mode: "cors",
+            credentials: "same-origin",
+          }
+        );
         const data = await response.json();
         setFeedbackData(data);
       } catch (error) {

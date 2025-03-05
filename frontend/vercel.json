@@ -1,16 +1,8 @@
 {
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/v1/login",
-      "dest": "/api/v1/login.js"
-    },
-    {
-      "src": "/api/v1/login/",
-      "dest": "/api/v1/login.js"
-    },
-    {
-      "src": "/api/v1/(.*)",
-      "dest": "/api/proxy.js"
+      "source": "/api/:path*",
+      "destination": "http://3.111.196.92:8020/api/:path*"
     }
   ],
   "headers": [

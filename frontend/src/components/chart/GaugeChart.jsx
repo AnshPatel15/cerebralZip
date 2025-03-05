@@ -15,15 +15,18 @@ const GaugeChart = () => {
             import.meta.env.VITE_API_PASSWORD
           }`
         );
-        const response = await apiCall("sample_assignment_api_3/", {
-          method: "GET",
-          headers: {
-            Authorization: `Basic ${credentials}`,
-            Accept: "application/json",
-          },
-          mode: "cors",
-          credentials: "same-origin",
-        });
+        const response = await fetch(
+          "/api/v1/sample_assignment_api_3/",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Basic ${credentials}`,
+              Accept: "application/json",
+            },
+            mode: "cors",
+            credentials: "same-origin",
+          }
+        );
 
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
