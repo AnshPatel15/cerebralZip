@@ -38,7 +38,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("http://3.111.196.92:8020/api/v1/login/", {
+      const response = await fetch("/api/v1/login/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
