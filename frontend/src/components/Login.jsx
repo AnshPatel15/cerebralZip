@@ -42,12 +42,17 @@ const Login = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          accept: "application/json",
+          Accept: "application/json",
         },
         body: JSON.stringify(formData),
       });
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const data = await response.json();
+      console.log("Response data:", data);
 
       if (data.message === "Incorrect Username") {
         setError("Invalid username");

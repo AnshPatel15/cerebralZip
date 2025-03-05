@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/api/:match*",
-      "destination": "http://3.111.196.92:8020/api/:match*"
+      "source": "/api/v1/:path*",
+      "destination": "http://3.111.196.92:8020/api/v1/:path*"
     }
   ],
   "headers": [
