@@ -11,18 +11,21 @@ import {
 
 const LineGraph = () => {
   const [deviceData, setDeviceData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
         const response = await fetch(
           "http://localhost:5000/api/line-chart-data"
         );
         const data = await response.json();
-
         setDeviceData(data);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchData();
@@ -40,61 +43,79 @@ const LineGraph = () => {
   const offlineGrowth = calculateGrowth("offline_sales");
 
   return (
-    <div className="mr-15">
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={deviceData}>
-          <XAxis axisLine={true} tickLine={false} tick={false} dataKey="date" />
-          <YAxis
-            tickFormatter={(value) => {
-              if (value === 0) return "0";
-              return `${value / 1000}k`;
-            }}
-            ticks={[0, 4000, 8000]}
-          />
-          <Tooltip
-            labelFormatter={(value) => {
-              const date = new Date(value);
-              return date.toLocaleString();
-            }}
-          />
-          <Legend
-            formatter={(value) => (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
+    <div className="mr-15 h-[300px]">
+      <div className="relative h-full transition-all duration-300">
+        {isLoading ? (
+          <div className="absolute inset-0 flex items-center justify-center animate-pulse">
+            <div className="space-y-4">
+              <div className="h-8 w-32 bg-gray-200"></div>
+              <div className="h-8 w-38 bg-gray-200"></div>
+              <div className="h-8 w-42 bg-gray-200"></div>
+              <div className="h-8 w-48 bg-gray-200"></div>
+            </div>
+          </div>
+        ) : (
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={deviceData}>
+              <XAxis
+                axisLine={true}
+                tickLine={false}
+                tick={false}
+                dataKey="date"
+              />
+              <YAxis
+                tickFormatter={(value) => {
+                  if (value === 0) return "0";
+                  return `${value / 1000}k`;
                 }}
-              >
-                <span>{value}</span>
-                <span style={{ fontSize: "12px", color: "#666" }}>
-                  {value === "Web Sales"
-                    ? `${webGrowth}%`
-                    : `${offlineGrowth}%`}
-                </span>
-              </div>
-            )}
-          />
-          <Line
-            type="monotone"
-            dataKey="web_sales"
-            name="Web Sales"
-            stroke="#007BFF"
-            strokeWidth={0.8}
-            dot={false}
-            activeDot={{ r: 2 }}
-          />
-          <Line
-            type="monotone"
-            dataKey="offline_sales"
-            name="Offline Sales"
-            stroke="#FF6B6B"
-            strokeWidth={0.8}
-            dot={false}
-            activeDot={{ r: 2 }}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+                ticks={[0, 4000, 8000]}
+              />
+              <Tooltip
+                labelFormatter={(value) => {
+                  const date = new Date(value);
+                  return date.toLocaleString();
+                }}
+              />
+              <Legend
+                formatter={(value) => (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                  >
+                    <span>{value}</span>
+                    <span style={{ fontSize: "12px", color: "#666" }}>
+                      {value === "Web Sales"
+                        ? `${webGrowth}%`
+                        : `${offlineGrowth}%`}
+                    </span>
+                  </div>
+                )}
+              />
+              <Line
+                type="monotone"
+                dataKey="web_sales"
+                name="Web Sales"
+                stroke="#007BFF"
+                strokeWidth={0.8}
+                dot={false}
+                activeDot={{ r: 2 }}
+              />
+              <Line
+                type="monotone"
+                dataKey="offline_sales"
+                name="Offline Sales"
+                stroke="#FF6B6B"
+                strokeWidth={0.8}
+                dot={false}
+                activeDot={{ r: 2 }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        )}
+      </div>
     </div>
   );
 };

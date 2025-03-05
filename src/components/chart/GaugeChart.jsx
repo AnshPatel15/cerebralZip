@@ -3,9 +3,11 @@ import { RadialBar, RadialBarChart, ResponsiveContainer } from "recharts";
 
 const GaugeChart = () => {
   const [gaudeData, setGaugeData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
         const credentials = btoa(
           `${import.meta.env.VITE_API_USERNAME}:${
@@ -33,10 +35,25 @@ const GaugeChart = () => {
         setGaugeData(data);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchData();
   }, []);
+
+  if (isLoading) {
+    return (
+      <div className="w-full h-[280px] flex items-center justify-center animate-pulse">
+        <div className="space-y-4">
+          <div className="h-8 w-32 bg-gray-200 "></div>
+          <div className="h-8 w-38 bg-gray-200 "></div>
+          <div className="h-8 w-42 bg-gray-200 "></div>
+          <div className="h-8 w-48 bg-gray-200 rounded"></div>
+        </div>
+      </div>
+    );
+  }
 
   const data = [
     { name: "Background", value: 100, fill: "none" },

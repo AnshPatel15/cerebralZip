@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 
 const FeedbackChart = () => {
   const [feedbackData, setFeedbackData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
         const credentials = btoa(
           `${import.meta.env.VITE_API_USERNAME}:${
@@ -25,13 +27,40 @@ const FeedbackChart = () => {
         );
         const data = await response.json();
         setFeedbackData(data);
-        console.log(data);
       } catch (error) {
         console.error("Error fetching feedback data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchData();
   }, []);
+
+  if (isLoading) {
+    return (
+      <div className="w-full bg-white rounded-lg shadow-sm p-4 animate-pulse">
+        <div className="flex justify-between items-center mb-4">
+          <div className="h-4 bg-gray-200 rounded w-32"></div>
+          <div className="h-4 bg-gray-200 rounded w-24"></div>
+        </div>
+
+        <div className="h-2 flex rounded-full overflow-hidden mb-5 gap-1">
+          <div className="bg-gray-200 rounded-full w-1/3"></div>
+          <div className="bg-gray-200 rounded-full w-1/3"></div>
+          <div className="bg-gray-200 rounded-full w-1/3"></div>
+        </div>
+
+        <div className="flex justify-between px-1">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="flex flex-col items-center gap-1">
+              <div className="h-4 bg-gray-200 rounded w-16"></div>
+              <div className="h-4 bg-gray-200 rounded w-8"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   const data = {
     negative: { value: feedbackData.negative, color: "bg-[#FF5C5C]" },
@@ -44,9 +73,6 @@ const FeedbackChart = () => {
   return (
     <div className="w-full bg-white rounded-lg shadow-sm p-4">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-sm text-gray-500 font-normal">
-          Community feedback
-        </h3>
         <div className="text-sm text-gray-700 font-medium">Mostly positive</div>
       </div>
 
