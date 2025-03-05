@@ -1,7 +1,6 @@
-// unable to deploy due to API not supporting HTTPS
-
 export default async function handler(req, res) {
-  const apiUrl = "http://3.111.196.92:8020/api/v1/login/";
+  const { endpoint } = req.query;
+  const apiUrl = `http://3.111.196.92:8020/api/v1/${endpoint || ''}`;
 
   try {
     const response = await fetch(apiUrl, {

@@ -14,7 +14,7 @@ const FeedbackChart = () => {
           }`
         );
         const response = await fetch(
-          "https://3.111.196.92:8020/api/v1/sample_assignment_api_5/",
+          "http://3.111.196.92:8020/api/v1/sample_assignment_api_5/",
           {
             method: "GET",
             headers: {

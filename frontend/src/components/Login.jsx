@@ -38,7 +38,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("https://3.111.196.92:8020/api/v1/login/", {
+      const response = await fetch("/api/proxy?endpoint=login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
