@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { apiCall } from "../../config/api";
 
 const FeedbackChart = () => {
   const [feedbackData, setFeedbackData] = useState([]);
