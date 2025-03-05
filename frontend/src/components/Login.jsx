@@ -5,14 +5,14 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const { setUser } = useUser();
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const storedUser = localStorage.getItem("loginState");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
-      navigate("/"); // or wherever you want to redirect logged-in users
+      navigate("/");
     }
-  }, []);
+  }, [navigate, setUser]);
 
   const [formData, setFormData] = useState({
     username: "",

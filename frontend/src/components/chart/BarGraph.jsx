@@ -16,7 +16,9 @@ const BarGraph = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/monthly-data");
+        const response = await fetch(
+          "https://cerebralzip.onrender.com/api/monthly-data"
+        );
         const jsonData = await response.json();
         const firstOccurrence = jsonData.filter(
           (item, index, self) =>

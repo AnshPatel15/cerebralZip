@@ -16,7 +16,7 @@ const LineGraph = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/line-chart-data"
+          "https://cerebralzip.onrender.com/api/line-chart-data"
         );
         const data = await response.json();
         setDeviceData(data);
