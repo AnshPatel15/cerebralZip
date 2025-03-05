@@ -3,6 +3,7 @@ import sqlite3 from "sqlite3";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
+import lineChartData from "./lineData.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -138,6 +139,11 @@ app.get("/api/products/count", (req, res) => {
     }
     res.json(row);
   });
+});
+
+// Endpoint to get line chart data
+app.get("/api/line-chart-data", (req, res) => {
+  res.json(lineChartData);
 });
 
 app.listen(port, () => {
