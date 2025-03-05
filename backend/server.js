@@ -141,7 +141,6 @@ app.get("/api/products/count", (req, res) => {
   });
 });
 
-// Endpoint to get line chart data
 app.get("/api/line-chart-data", (req, res) => {
   res.json(lineChartData);
 });
