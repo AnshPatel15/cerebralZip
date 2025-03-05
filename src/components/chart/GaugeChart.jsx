@@ -7,7 +7,11 @@ const GaugeChart = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const credentials = btoa("trial:assignment123");
+        const credentials = btoa(
+          `${import.meta.env.VITE_API_USERNAME}:${
+            import.meta.env.VITE_API_PASSWORD
+          }`
+        );
         const response = await fetch(
           "http://3.111.196.92:8020/api/v1/sample_assignment_api_3/",
           {

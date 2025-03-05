@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLoading } from "../../context/loadingContext";
 
 const formatNumber = (value) => {
   if (typeof value !== "number") return value;
@@ -11,11 +12,19 @@ const formatNumber = (value) => {
 
 const Metrics = () => {
   const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const { showLoading, hideLoading } = useLoading();
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
+      showLoading();
       try {
-        const credentials = btoa("trial:assignment123");
+        const credentials = btoa(
+          `${import.meta.env.VITE_API_USERNAME}:${
+            import.meta.env.VITE_API_PASSWORD
+          }`
+        );
         const response = await fetch(
           "http://3.111.196.92:8020/api/v1/sample_assignment_api_1/",
           {
@@ -37,11 +46,30 @@ const Metrics = () => {
         setData(data);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
+        hideLoading();
       }
     };
 
     fetchData();
-  }, []);
+  }, [showLoading, hideLoading]);
+
+  if (isLoading) {
+    return (
+      <div className="flex gap-2 ml-8">
+        {[1, 2, 3, 4].map((i) => (
+          <div
+            key={i}
+            className="border border-gray-300 w-140 h-30 rounded-2xl p-4 animate-pulse"
+          >
+            <div className="h-6 bg-gray-200 rounded w-24 mb-4"></div>
+            <div className="h-8 bg-gray-200 rounded w-32"></div>
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className="flex gap-2 ml-8">

@@ -19,7 +19,7 @@ const LineGraph = () => {
           "http://localhost:5000/api/line-chart-data"
         );
         const data = await response.json();
-        console.log("Fetched data:", data);
+
         setDeviceData(data);
       } catch (error) {
         console.error("Error fetching data:", error);
