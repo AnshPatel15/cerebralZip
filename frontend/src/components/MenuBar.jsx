@@ -1,9 +1,19 @@
 import { useState } from "react";
 import { useUser } from "../context/userContext";
+import { useNavigate } from "react-router-dom";
 
 const MenuBar = () => {
   const [selectedMenu, setSelectedMenu] = useState("Dashboard");
-  const { user } = useUser();
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const { user, setUser } = useUser();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("loginState");
+    setUser(null);
+    setShowUserMenu(false);
+    navigate("/login");
+  };
 
   const settingsItems = [
     { name: "Settings", img: "assets/settings.svg" },
@@ -59,11 +69,31 @@ const MenuBar = () => {
           </div>
         ))}
       </div>
-      <div className=" absolute text-center text-lg font-bold mt-5 bottom-[-300px] left-15 flex items-center gap-2 flex-row">
+      <div
+        onClick={() => setShowUserMenu((p) => !p)}
+        className=" cursor-pointer absolute text-center text-lg font-bold mt-5 bottom-[-300px] left-15 flex items-center gap-2 flex-row"
+      >
         <img src="assets/profile.svg" alt="profile" className="h-10 w-10" />
         <span>
           {user.username.charAt(0).toUpperCase() + user.username.slice(1)}
         </span>
+        {showUserMenu && (
+          <div className="absolute bottom-10 left-[-58px] bg-gray-50 border-[1px] border-gray-300 rounded-lg p-2 w-50 text-center mb-2">
+            <div className="flex items-center gap-2 p-2 hover:bg-gray-100 cursor-pointer">
+              <span>{user.username}</span>
+            </div>
+            <hr className="border-gray-300 w-[90%] my-2" />
+            <div 
+              className="flex items-center gap-2 mt-2 p-2 hover:bg-gray-100 cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleLogout();
+              }}
+            >
+              <span>Logout</span>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

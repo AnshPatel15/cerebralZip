@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useUser } from "../context/userContext";
 import { useNavigate } from "react-router-dom";
-import { apiCall } from "../config/api";
 
 const Login = () => {
   const { setUser } = useUser();
