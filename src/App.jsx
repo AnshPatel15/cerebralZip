@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import Login from "./components/Login";
 import { useUser } from "./context/userContext";
 import GaugeChart from "./components/chart/GaugeChart";
+import LineGraph from "./components/chart/LineGraph";
+import FeedbackChart from "./components/chart/FeedbackChart";
 
 const App = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -18,12 +20,12 @@ const App = () => {
       component: <GaugeChart />,
     },
     {
-      title: "Activity Status",
-      component: <div>Activity Status Component</div>,
+      title: "Customers By Device",
+      component: <LineGraph />,
     },
     {
-      title: "Recent Updates",
-      component: <div>Recent Updates Component</div>,
+      title: "Community Feedback",
+      component: <FeedbackChart />,
     },
   ];
 
@@ -65,16 +67,21 @@ const App = () => {
         <div className="lg:col-span-7 bg-white lg:p-2 rounded-xl shadow-md lg:-ml-20 sm:col-span-12 overflow-hidden">
           <Dashboard />
         </div>
-        <div className="lg:col-span-3 sm:col-span-12">
-          <div className="flex flex-col gap-4">
-            {rightSidebarComponents.map((component, i) => (
-              <div key={i} className="bg-white p-4 rounded-xl shadow-md">
-                <h2 className="text-lg font-semibold mb-2">
-                  {component.title}
-                </h2>
-                {component.component}
-              </div>
-            ))}
+        <div className="lg:col-span-3 sm:col-span-12 h-full overflow-hidden flex flex-col">
+          <div className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] scroll-smooth">
+            <div className="flex flex-col gap-4 p-1">
+              {rightSidebarComponents.map((component, i) => (
+                <div
+                  key={i}
+                  className="bg-white p-4 rounded-xl shadow-md flex flex-col"
+                >
+                  <h2 className="text-2xl font-semibold mb-3 text-center">
+                    {component.title}
+                  </h2>
+                  {component.component}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
