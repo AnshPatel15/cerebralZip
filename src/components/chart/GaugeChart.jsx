@@ -83,6 +83,8 @@ const GaugeChart = () => {
                 entry.name === "Background" ? "3 3" : "0"
               }
               strokeWidth={(entry) => (entry.name === "Background" ? 1 : 0)}
+              animationDuration={1000}
+              animationBegin={0}
             />
             <text
               x="50%"
