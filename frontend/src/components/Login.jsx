@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useUser } from "../context/userContext";
 import { useNavigate } from "react-router-dom";
+import { apiCall } from "../config/api";
 
 const Login = () => {
   const { setUser } = useUser();
@@ -38,7 +39,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("/api/v1/login/", {
+      const response = await apiCall("login/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
